@@ -126,13 +126,16 @@ figure {
 }
 .board {
   display:grid;
-  grid-template-columns:repeat(8,1fr);
+  grid-template-columns:repeat(8,minmax(0,1fr));
+  grid-template-rows:repeat(8,minmax(0,1fr));
   aspect-ratio:1;
   border:8px solid #314d3c;
   border-radius:3px;
   overflow:hidden
 }
 .square {
+  min-height:0;
+  overflow:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
