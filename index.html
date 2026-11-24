@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="첨단융합학부 2학년 권민재의 체스와 보드게임 이야기">
+<link rel="icon" href="data:,">
+<title>권민재의 체스 노트</title>
+<style>
+* {
+  box-sizing:border-box
+}
+html {
+  scroll-behavior:smooth
+}
+body {
+  margin:0;
+  background:#fff;
+  color:#20352c;
+  font:16px/1.75 Arial,"Malgun Gothic",sans-serif
+}
+header,main,footer {
+  width:min(1040px,90%);
+  margin:auto
+}
+header {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  padding:22px 0;
+  border-bottom:1px solid #d9e1db
+}
+nav {
+  display:flex;
+  gap:22px;
+  flex-wrap:wrap
+}
+a {
+  color:#275c43;
+  text-underline-offset:4px
+}
+section {
+  padding:46px 0;
+  border-bottom:1px solid #d9e1db
+}
+h1 {
+  font-size:clamp(2rem,5vw,3.4rem);
+  line-height:1.3;
+  margin:12px 0 20px
+}
+h2 {
+  font-size:1.6rem;
+  margin:0 0 14px
+}
+h3 {
+  font-size:1.25rem;
+  margin:6px 0
+}
+p {
+  margin:10px 0
+}
+.muted {
+  color:#52665a
+}
+.hero {
+  display:grid;
+  grid-template-columns:1fr 180px;
+  align-items:center;
+  gap:30px
+}
+.hero p {
+  max-width:710px
+}
+.knight {
+  font-size:150px;
+  text-align:center;
+  color:#325e46;
+  line-height:1
+}
+.toolbar {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  flex-wrap:wrap
+}
+.buttons {
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap
+}
+button {
+  font:inherit;
+  min-height:44px;
+  padding:8px 16px;
+  border:1px solid #809a89;
+  border-radius:5px;
+  color:#27553e;
+  background:#fff;
+  cursor:pointer
+}
+button:hover {
+  background:#edf3ee
+}
+button[aria-pressed="true"] {
+  background:#315e46;
+  color:#fff;
+  border-color:#315e46
+}
+button:focus-visible,a:focus-visible {
+  outline:3px solid #b65c16;
+  outline-offset:4px
+}
+#gallery {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:32px;
+  margin-top:26px
+}
+article {
+  min-width:0
+}
+figure {
+  margin:16px 0 0
+}
+.board {
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  aspect-ratio:1;
+  border:8px solid #314d3c;
+  border-radius:3px;
+  overflow:hidden
+}
+.square {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-width:0;
+  font:clamp(24px,4.4vw,44px)/1 "Segoe UI Symbol","DejaVu Sans",serif
+}
+.light {
+  background:#eef1e7
+}
+.dark {
+  background:#78967e
+}
+.white-piece {
+  color:#fff;
+  text-shadow:1px 1px 1px #17261e,-1px -1px 1px #17261e
+}
+.black-piece {
+  color:#12251b
+}
+.files {
+  display:flex;
+  justify-content:space-around;
+  padding:2px 8px;
+  color:#506356
+}
+figcaption {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:10px
+}
+.moves {
+  font-family:Consolas,monospace;
+  background:#f1f5f1;
+  padding:12px;
+  overflow-wrap:anywhere;
+  min-height:80px
+}
+.note {
+  min-height:56px
+}
+.table-wrap {
+  overflow-x:auto
+}
+table {
+  border-collapse:collapse;
+  width:100%;
+  text-align:left;
+  margin:20px 0
+}
+caption {
+  text-align:left;
+  font-weight:bold;
+  margin-bottom:10px
+}
+th,td {
+  padding:12px 10px;
+  border-bottom:1px solid #ccd8ce
+}
+th {
+  background:#f0f5f0
+}
+#performance {
+  min-height:56px
+}
+footer {
+  padding:26px 0;
+  color:#52665a
+}
+.order {
+  min-height:28px
+}
+.side {
+  font-weight:bold;
+  color:#46654f
+}
+
+@media(max-width:680px) {
+  header {
+  align-items:flex-start;
+  flex-direction:column;
+  gap:10px
+}
+.hero {
+  grid-template-columns:1fr
+}
+.knight {
+  font-size:96px;
+  text-align:left
+}
+section {
+  padding:30px 0
+}
+#gallery {
+  grid-template-columns:1fr;
+  gap:34px
+}
+.buttons {
+  width:100%
+}
+.buttons button {
+  flex:1
+}
+.square {
+  font-size:clamp(24px,7vw,44px)
+}
+.moves,.note {
+  min-height:0
+}
+th,td {
+  padding:10px 6px
+}
+
+}
+
+@media(prefers-reduced-motion:reduce) {
+  html {
+  scroll-behavior:auto
+}
+
+}
+
+</style>
+</head>
+<body>
+<header><strong>CHESS NOTES</strong><nav aria-label="주요 메뉴"><a href="#about">소개</a><a href="#openings">오프닝</a><a href="#algorithm">정렬 비교</a></nav></header>
+<main>
+<section id="about" class="hero"><div><p class="muted">첨단융합학부 2학년</p><h1>권민재의 체스 노트</h1><p>안녕하세요. 권민재입니다. 여러 보드게임을 좋아하고, 그중에서도 체스를 즐깁니다.</p><p>백으로는 루이 로페즈와 퀸즈 갬빗을, 흑으로는 페트로프 디펜스와 시실리안 스베시니코프 라인을 선호합니다. 이곳에는 좋아하는 오프닝의 기본 수순을 정리했습니다.</p></div><div class="knight" role="img" aria-label="체스 나이트">♞</div></section>
+<section id="openings"><div class="toolbar"><h2>좋아하는 오프닝</h2><div class="buttons" aria-label="오프닝 정렬 기준"><button id="length" type="button" aria-pressed="true">짧은 수순</button><button id="title" type="button" aria-pressed="false">Title A–Z</button></div></div><p>Before는 시작 배치, After는 아래 기본 수순을 둔 뒤의 배치입니다. 각 체스판의 버튼을 눌러 비교해 보세요.</p><p class="muted">체스판은 백의 시점입니다. 수순 길이는 백과 흑의 착수를 각각 한 번으로 세며, 두 정렬 버튼은 병합 정렬을 사용합니다.</p><p id="order" class="order" role="status"></p><div id="gallery"></div><noscript>정렬과 Before/After 비교를 사용하려면 JavaScript를 켜 주세요.</noscript></section>
+<section id="algorithm"><h2>정렬은 어떻게 다를까?</h2><p>오프닝 정보를 배열에 담고, 병합 정렬로 수순 길이 또는 영문 제목에 따라 정렬했습니다. 배열을 절반으로 나누어 정렬한 다음, 앞쪽 값부터 비교하며 합치는 방식입니다.</p><div class="table-wrap"><table><caption>병합 정렬과 삽입 정렬</caption><thead><tr><th scope="col">비교 항목</th><th scope="col">병합 정렬</th><th scope="col">삽입 정렬</th></tr></thead><tbody><tr><th scope="row">최선 시간</th><td>O(n log n)</td><td>O(n)</td></tr><tr><th scope="row">평균·최악 시간</th><td>O(n log n)</td><td>O(n²)</td></tr><tr><th scope="row">정렬 본체의 추가 공간</th><td>O(n)</td><td>제자리 구현 O(1)</td></tr></tbody></table></div><p>동일한 역순 정수 1,024개를 정렬하며 비교 함수 호출 횟수를 셉니다. 특정 입력에서의 비교 횟수이며 실행 시간은 아닙니다. 비교용 구현은 원본 보존을 위해 입력 배열의 사본을 사용합니다.</p><button id="benchmark" type="button">비교 횟수 확인</button><p id="performance" role="status">버튼을 누르면 두 알고리즘의 비교 결과가 표시됩니다.</p><p class="muted">삽입 정렬은 이미 정렬된 작은 배열에서 효율적입니다. 병합 정렬은 입력 순서에 관계없이 O(n log n) 시간에 정렬합니다.</p></section>
+</main><footer>권민재 · 체스와 보드게임</footer>
+<script>
+const openings = [
+  {id:"ruy",title:"Ruy Lopez",name:"루이 로페즈",side:"백으로 선호",line:"1.e4 e5 2.Nf3 Nc6 3.Bb5",note:"비숍으로 c6 나이트를 압박하며 중앙 주도권을 다투는 오프닝입니다.",source:"https://www.chess.com/openings/Ruy-Lopez-Opening",moves:[["e2","e4"],["e7","e5"],["g1","f3"],["b8","c6"],["f1","b5"]]},
+  {id:"queen",title:"Queen's Gambit",name:"퀸즈 갬빗",side:"백으로 선호",line:"1.d4 d5 2.c4",note:"c폰으로 흑의 d5폰을 압박하며 중앙을 다투는 오프닝입니다.",source:"https://www.chess.com/openings/queens-gambit",moves:[["d2","d4"],["d7","d5"],["c2","c4"]]},
+  {id:"petroff",title:"Petroff Defense",name:"페트로프 디펜스",side:"흑으로 선호",line:"1.e4 e5 2.Nf3 Nf6",note:"흑이 나이트를 전개하면서 백의 e4폰을 역으로 공격하는 수비입니다.",source:"https://www.chess.com/openings/Petrovs-Defense",moves:[["e2","e4"],["e7","e5"],["g1","f3"],["g8","f6"]]},
+  {id:"sicilian",title:"Sicilian Sveshnikov",name:"시실리안 스베시니코프",side:"흑으로 선호",line:"1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 e5",note:"스베시니코프로 이어지는 기본 수순입니다. 흑의 e폰이 d4 나이트를 공격합니다.",source:"https://www.chess.com/openings/Sicilian-Defense-Open-Pelikan-and-Sveshnikov-Chelyabinsk-Variation",moves:[["e2","e4"],["c7","c5"],["g1","f3"],["b8","c6"],["d2","d4"],["c5","d4"],["f3","d4"],["g8","f6"],["b1","c3"],["e7","e5"]]}
+];
+const states = {};
+const symbols = {K:"♔",Q:"♕",R:"♖",B:"♗",N:"♘",P:"♙",k:"♚",q:"♛",r:"♜",b:"♝",n:"♞",p:"♟"};
+function startPosition() {
+  const board = {};
+  const files = "abcdefgh";
+  for (let i=0;i<8;i++) {
+    board[files[i]+"1"]="RNBQKBNR"[i];
+    board[files[i]+"2"]="P";
+    board[files[i]+"7"]="p";
+    board[files[i]+"8"]="rnbqkbnr"[i];
+  }
+  return board;
+}
+function positionAfter(moves) {
+  const board = startPosition();
+  for (const move of moves) {
+    board[move[1]] = board[move[0]];
+    delete board[move[0]];
+  }
+  return board;
+}
+function mergeSort(items,compare) {
+  if (items.length<=1) return items.slice();
+  const mid=Math.floor(items.length/2);
+  const left=mergeSort(items.slice(0,mid),compare);
+  const right=mergeSort(items.slice(mid),compare);
+  const result=[];
+  let i=0,j=0;
+  while(i<left.length && j<right.length) {
+    if(compare(left[i],right[j])<=0) result.push(left[i++]);
+    else result.push(right[j++]);
+  }
+  return result.concat(left.slice(i),right.slice(j));
+}
+function byLength(a,b) {return a.moves.length-b.moves.length;}
+function byTitle(a,b) {return a.title.localeCompare(b.title,"en",{sensitivity:"base"});}
+function element(tag,text,className) {
+  const item=document.createElement(tag);
+  if(text!==undefined) item.textContent=text;
+  if(className) item.className=className;
+  return item;
+}
+function renderBoard(container,record,after) {
+  const position=after?positionAfter(record.moves):startPosition();
+  container.replaceChildren();
+  container.setAttribute("aria-label",record.name+(after?" After, 기본 수순 이후 배치":" Before, 시작 배치"));
+  for(let rank=8;rank>=1;rank--) {
+    for(let file=0;file<8;file++) {
+      const square="abcdefgh"[file]+rank;
+      const piece=position[square];
+      const color=(file+rank)%2===1?"dark":"light";
+      const pieceColor=piece?(piece===piece.toUpperCase()?" white-piece":" black-piece"):"";
+      const cell=element("span",piece?symbols[piece]:"","square "+color+pieceColor);
+      cell.setAttribute("aria-hidden","true");
+      container.append(cell);
+    }
+  }
+}
+function renderGallery(ordered) {
+  const gallery=document.getElementById("gallery");
+  gallery.replaceChildren();
+  for(const record of ordered) {
+    const card=element("article");
+    card.append(element("p",record.side,"side"),element("h3",record.name),element("p",record.title,"muted"),element("p",record.note,"note"),element("p",record.line,"moves"));
+    const figure=element("figure");
+    const board=element("div",undefined,"board");
+    board.setAttribute("role","img");
+    const files=element("div",undefined,"files");
+    for(const file of "abcdefgh") files.append(element("span",file));
+    files.setAttribute("aria-hidden","true");
+    const caption=element("figcaption");
+    const state=element("span");
+    const toggle=element("button");
+    toggle.type="button";
+    function update() {
+      const after=states[record.id]!==false;
+      renderBoard(board,record,after);
+      state.textContent=after?"After · 기본 수순 이후":"Before · 시작 배치";
+      toggle.textContent=after?"Before 보기":"After 보기";
+      toggle.setAttribute("aria-label",record.name+" "+toggle.textContent);
+      toggle.setAttribute("aria-pressed",String(after));
+    }
+    toggle.addEventListener("click",function(){states[record.id]=!(states[record.id]!==false);update();});
+    update();
+    caption.append(state,toggle);
+    figure.append(board,files,caption);
+    const reference=element("a","기본 수순 참고 · Chess.com");
+    reference.href=record.source;
+    card.append(figure,element("p"));
+    card.lastChild.append(reference);
+    gallery.append(card);
+  }
+}
+function gallery(sort) {
+  const ordered=mergeSort(openings,sort==="title"?byTitle:byLength);
+  renderGallery(ordered);
+  document.getElementById("length").setAttribute("aria-pressed",String(sort!=="title"));
+  document.getElementById("title").setAttribute("aria-pressed",String(sort==="title"));
+  document.getElementById("order").textContent=(sort==="title"?"영문 제목순: ":"짧은 수순: ")+ordered.map(function(item){return item.name;}).join(" · ");
+}
+function insertionSort(items,compare) {
+  const result=items.slice();
+  for(let i=1;i<result.length;i++) {
+    const value=result[i];
+    let j=i-1;
+    while(j>=0 && compare(result[j],value)>0) {result[j+1]=result[j];j--;}
+    result[j+1]=value;
+  }
+  return result;
+}
+function runBenchmark() {
+  const input=Array.from({length:1024},function(_,i){return 1024-i;});
+  let mergeCount=0,insertionCount=0;
+  const a=mergeSort(input,function(x,y){mergeCount++;return x-y;});
+  const b=insertionSort(input,function(x,y){insertionCount++;return x-y;});
+  const correct=a.length===1024 && b.length===1024 && a.every(function(value,i){return value===i+1 && b[i]===value;});
+  document.getElementById("performance").textContent=correct?"역순 1,024개: 병합 정렬 "+mergeCount.toLocaleString("en-US")+"회 / 삽입 정렬 "+insertionCount.toLocaleString("en-US")+"회. 두 정렬 결과가 오름차순으로 일치합니다.":"정렬 결과를 다시 확인해 주세요.";
+}
+document.getElementById("length").addEventListener("click",function(){gallery("length");});
+document.getElementById("title").addEventListener("click",function(){gallery("title");});
+document.getElementById("benchmark").addEventListener("click",runBenchmark);
+gallery("length");
+</script>
+</body>
+</html>
